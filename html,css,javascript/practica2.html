@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Robot 3D - Práctica 10</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+    </style>
+</head>
+<body>
+
+<!-- THREE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r110/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.110.0/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+// ================== ESCENA ==================
+let scene = new THREE.Scene();
+scene.background = new THREE.Color("#111111");
+
+// ================== CÁMARA ==================
+let camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+);
+camera.position.set(10, 8, 15);
+
+// ================== RENDER ==================
+let renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// ================== CONTROLES ==================
+let controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+
+// ================== LUZ ==================
+const ambientLight = new THREE.AmbientLight(0x888888);
+scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0xffffff, 1);
+pointLight.position.set(10, 10, 10);
+scene.add(pointLight);
+
+// ================== MATERIAL ==================
+const material = new THREE.MeshStandardMaterial({ color: 0x66ccff, flatShading: true });
+
+// ================== FUNCIONES ==================
+function crearCaja(w, h, d, x, y, z) {
+    const geo = new THREE.BoxGeometry(w, h, d);
+    const mesh = new THREE.Mesh(geo, material);
+    mesh.position.set(x, y, z);
+    scene.add(mesh);
+    return mesh;
+}
+
+function crearEsfera(r, x, y, z) {
+    const geo = new THREE.SphereGeometry(r, 16, 16);
+    const mesh = new THREE.Mesh(geo, material);
+    mesh.position.set(x, y, z);
+    scene.add(mesh);
+    return mesh;
+}
+
+function crearCilindro(r, h, x, y, z) {
+    const geo = new THREE.CylinderGeometry(r, r, h, 16);
+    const mesh = new THREE.Mesh(geo, material);
+    mesh.position.set(x, y, z);
+    scene.add(mesh);
+    return mesh;
+}
+
+function crearCono(r, h, x, y, z) {
+    const geo = new THREE.ConeGeometry(r, h, 16);
+    const mesh = new THREE.Mesh(geo, material);
+    mesh.position.set(x, y, z);
+    scene.add(mesh);
+    return mesh;
+}
+
+function crearToroide(r, tubo, x, y, z) {
+    const geo = new THREE.TorusGeometry(r, tubo, 16, 64);
+    const mesh = new THREE.Mesh(geo, material);
+    mesh.position.set(x, y, z);
+    scene.add(mesh);
+    return mesh;
+}
+
+// ================== ROBOT ==================
+crearCaja(2, 2, 2, 0, 6, 0); // cabeza
+crearEsfera(0.3, -0.5, 6.2, 1); // ojo izquierdo
+crearEsfera(0.3, 0.5, 6.2, 1); // ojo derecho
+crearCilindro(1.2, 2.8, 0, 3.6, 0); // cuerpo
+crearCaja(0.3, 2.2, 0.3, -1.7, 4, 0); // brazo izquierdo
+crearCaja(0.3, 2.2, 0.3, 1.7, 4, 0); // brazo derecho
+crearCaja(0.4, 0.4, 0.4, -1.7, 2, 0); // mano izquierda
+crearCaja(0.4, 0.4, 0.4, 1.7, 2, 0); // mano derecha
+crearCaja(0.5, 2.4, 0.5, -0.6, 1, 0); // pierna izquierda
+crearCaja(0.5, 2.4, 0.5, 0.6, 1, 0); // pierna derecha
+crearCaja(0.8, 0.3, 1.2, -0.6, -0.5, 0.5); // pie izquierdo
+crearCaja(0.8, 0.3, 1.2, 0.6, -0.5, 0.5); // pie derecho
+crearCono(0.2, 0.8, 0, 7.2, 0); // antena
+crearToroide(0.5, 0.15, 0, 3.8, 0.6); // detalle pecho
+crearCaja(20, 0.1, 20, 0, -0.25, 0); // base
+
+// ================== ANIMACIÓN ==================
+function animate() {
+    requestAnimationFrame(animate);
+
+    scene.rotation.y += 0.01;
+    controls.update();
+    renderer.render(scene, camera);
+}
+
+animate();
+</script>
+
+</body>
+</html>

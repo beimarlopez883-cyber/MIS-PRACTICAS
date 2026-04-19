@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Bienvenido a mi casa</h1>
+    <p>Esta es una simple página web para mostrar mi casa.</p>
+    <img src="casa.jpg" alt="Imagen de mi casa" width="500">        
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- 🔥 CONTROLES DE MOUSE -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+        var ecena = new THREE.Scene();
+
+        var camara = new THREE.PerspectiveCamera(
+            75,
+            window.innerWidth / window.innerHeight,
+            0.1,
+            1000
+        );
+        camara.position.z = 10;
+
+        var renderer = new THREE.WebGLRenderer();   
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement); 
+
+        // 🎮 CONTROLES
+        var controls = new THREE.OrbitControls(camara, renderer.domElement);
+
+        function cubo(x,y,z,xl,yl,zl){
+            var geometria = new THREE.BoxGeometry(xl,yl,zl);
+            var material = new THREE.MeshBasicMaterial({color: "blue"});
+            var cubo = new THREE.Mesh(geometria, material);
+            cubo.position.set(x,y,z);
+            ecena.add(cubo);
+        }
+
+        function cuerpo(x,y,z){
+            cubo(x,y,z,3,3,1);
+        }
+
+        function cabeza(x,y,z){
+            var geo = new THREE.SphereGeometry(1.5, 50, 50);
+            var mat = new THREE.MeshBasicMaterial({color: 0xff0000});
+            var esfera = new THREE.Mesh(geo, mat);   
+            esfera.position.set(x,y,z);
+
+            ecena.add(esfera);
+
+           
+        }
+
+        // 🧱 ROBOT
+        cubo(1,0,0,1,3,1);
+        cubo(-1,0,0,1,3,1);
+        cubo(0,1.5,0,3,1,1);
+        cuerpo(0,6,0);
+        cabeza(0,3,0);
+
+        // 🖥️ RENDER INICIAL
+        renderer.render(ecena, camara);
+
+        // 🔄 volver a renderizar cuando muevas el mouse
+        controls.addEventListener('change', function () {
+            renderer.render(ecena, camara);
+        });
+    </script>
+</body>
+</html>

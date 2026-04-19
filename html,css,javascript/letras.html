@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/108/three.min.js"></script>
+    <script>
+        var escena = new THREE.Scene();
+        var camara = new THREE.PerspectiveCamera(
+            75,
+            window.innerWidth/ window.innerHeight,
+            0.1,1000
+        );
+        var render =new THREE.WebGLRenderer();
+        render.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(render.domElement);
+        function letras (x,y,ancho,alto){
+            var mat= new THREE.LineBasicMaterial({color:"yellow"});
+            var vector=[
+                new THREE.Vector3(x,y,0),
+                new THREE.Vector3(x,y+alto,0),
+                new THREE.Vector3(x+ancho,y+alto,0),
+                new THREE.Vector3(x+ancho,y,0),
+                new THREE.Vector3(x+ancho,y-alto,0),
+                new THREE.Vector3(x,y-alto,0)
+            ];
+            var geometria = new THREE.BufferGeometry().setFromPoints(vector);
+            var letra = new THREE.Line(geometria,mat); 
+            escena.add(letra);
+            camara.position.z=5;
+                }
+        letras(-2,-2,1,1); 
+        render.render(escena,camara);
+    </script>
+</body>
+</html>

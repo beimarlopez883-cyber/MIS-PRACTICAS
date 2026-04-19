@@ -1,0 +1,39 @@
+<html>
+    <head>
+       <title> pratica programcioon</title> 
+       <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+       </style>
+    </head>
+    <body>
+    <h1>practica programacion grafica</h1>
+    <div class="ejercicios">
+         <textarea id="entrada1"></textarea>
+        <br>
+        <button onclick="ejercicio1()">calcular</button>
+        <p class="resul" id="salida"> </p>
+    </div>
+    <script>
+        function ejercicio1(){
+            let tex=document.getElementById("entrada1").value;
+            let linias=tex.split("\n")
+            let resul=""
+             for(let i=0;i<linias.length;i++)
+             {
+                let partes=linias[i].trim().split(" ")
+                if(partes.length==2){
+                    let a=parseFloat(partes[0])
+                    let b=parseFloat(partes[1])
+                    resul +=(a+b)+"\n"
+
+                }
+             }document.getElementById("salida").textContent=resul
+        }
+    </script>
+    </body>
+
+</html>

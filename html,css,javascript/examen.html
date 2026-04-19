@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>2D Rotación</title>
+<style>
+  body {
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  canvas {
+    background: white;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="canvas2D" width="300" height="300"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas2D");
+const ctx = canvas.getContext("2d");
+
+let angle = 0;
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.save();
+  ctx.translate(150, 150);
+  ctx.rotate(angle);
+
+  ctx.beginPath();
+  ctx.moveTo(-50, -50);
+  ctx.quadraticCurveTo(-80, 0, -50, 50);
+  ctx.quadraticCurveTo(0, 80, 50, 20);
+  ctx.quadraticCurveTo(20, 20, 10, 40);
+  ctx.quadraticCurveTo(0, 60, -20, 40);
+  ctx.strokeStyle = "blue";
+  ctx.lineWidth = 4;
+  ctx.stroke();
+
+  ctx.restore();
+
+  angle += 0.02;
+  requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>

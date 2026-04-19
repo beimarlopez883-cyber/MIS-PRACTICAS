@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Letra I 3D</title>
+</head>
+
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/108/three.min.js"></script>
+<script src="https://threejs.org/examples/js/geometries/TextGeometry.js"></script>
+<script src="https://threejs.org/examples/js/loaders/FontLoader.js"></script>
+
+<script>
+var escena, camara, render;
+
+function init(){
+  escena = new THREE.Scene();
+
+  camara = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 700);
+  camara.position.z = 10;
+
+  render = new THREE.WebGLRenderer();
+  render.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(render.domElement);
+
+  var loader = new THREE.FontLoader();
+
+  loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font){
+
+    var geometria = new THREE.TextGeometry("I", {
+      font: font,
+      size: 3,
+      height: 1
+    });
+
+    var material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+
+    var texto = new THREE.Mesh(geometria, material);
+
+    escena.add(texto);
+
+    render.render(escena, camara);
+  });
+}
+
+init();
+</script>
+
+</body>
+</html>
